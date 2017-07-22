@@ -47,7 +47,7 @@ class Checkpoint(Event):
         return '{} Checkpoint'.format(self.date)
 
 
-class PrivateMentroing(Event):
+class PrivateMentoring(Event):
 
     events = []
 
@@ -67,4 +67,5 @@ class PrivateMentroing(Event):
 
     def __str__(self):
         return '{} Private mentoring with {} about {}'.format(self.date,
-            zself.preffered_mentor)
+                                                              self.preffered_mentor
+                                                              )
