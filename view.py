@@ -74,3 +74,11 @@ def get_goal():
     """
 
     return input("Enter your goal: ")
+
+
+def print_msg(msg):
+    """
+    Print massage
+    """
+
+    print(msg)
