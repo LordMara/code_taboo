@@ -26,7 +26,7 @@ def start():
             view.print_msg("Wrong option!")
 
 
-def dispaly_all_evets():
+def display_all_evets():
     """
     Call function to print all Events objects to user
     """
