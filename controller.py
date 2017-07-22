@@ -32,7 +32,7 @@ class Controller:
     def book_private_mentoring(self):
         date = view.get_event_date()
         date = self.__class__.convert_date(date)
-        evetns.PrivateMentoring(date)
+        events.PrivateMentoring(date)
 
     def say_goodbye(self):
         view.print_goodbye()
@@ -40,5 +40,5 @@ class Controller:
     @staticmethod
     def convert_date(date_str):
         date_list = date_str.split('-')
-        return(date(int(date_list[2]), int(date_list[1], int(date_list[0]))))
+        return(date(int(date_list[2]), int(date_list[1]), int(date_list[0])))
         
