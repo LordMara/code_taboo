@@ -15,13 +15,13 @@ def print_main_menu():
     Print menu of program
     """
 
-    menu = """
-    Chose option:
-    1. Book private mentoring
-    2. Book checkpoint
-    3. Show all my events
-    """
-    print(menu)
+    print("""
+            Chose option:
+            1. Book private mentoring
+            2. Book checkpoint
+            3. Show all my events
+            0. Exit program
+          """)
 
 
 def print_goodbye():
