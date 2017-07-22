@@ -20,6 +20,8 @@ def start():
             book_checkpoint()
         elif choice == "3":
             display_all_evets()
+        elif choice == "4":
+            cancel_event()
         elif choice == "0":
             say_goodbye()
         else:
@@ -89,3 +91,27 @@ def convert_date(date_str):
 
     date_list = date_str.split('-')
     return date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
+
+
+def cancel_event():
+    """
+    Call functions to cancel event
+    """
+
+    date = view.get_event_date()
+
+    try:
+        date = convert_date(date)
+    except (ValueError, IndexError):
+        view.print_msg("Wrong data format!")
+    else:
+        event_name = view.get_event_name().lower()
+
+        if event_name == "checkpoint":
+            events.Checkpoint.del_event(date)
+
+        elif event_name == "private mentoring":
+            events.PrivateMentoring.del_event(date)
+
+        else:
+            view.print_msg("No such event!")
