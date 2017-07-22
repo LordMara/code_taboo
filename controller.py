@@ -4,6 +4,11 @@ import events
 
 
 def start():
+    """
+    Contain main logic of controller, 
+    call functions to perform task choosen by user
+    """
+
     choice = None
 
     while choice != "0":
@@ -14,22 +19,26 @@ def start():
         elif choice == "2":
             book_checkpoint()
         elif choice == "3":
-            print_all_evets()
+            display_all_evets()
         elif choice == "0":
             say_goodbye()
         else:
             view.print_msg("Wrong option!")
 
 
-def print_all_evets():
+def display_all_evets():
+    """
+    Call function to print all Events objects to user
+    """
+
     view.print_all_events(events.Event.get_events())
 
 
-def book_events():
-    pass
-
-
 def book_checkpoint():
+    """
+    Call functions that allow user create Checkpoint object
+    """
+
     date = view.get_event_date()
 
     try:
@@ -41,6 +50,10 @@ def book_checkpoint():
 
 
 def book_private_mentoring():
+    """
+    Call functions that allow user create PrivateMentoring object
+    """
+
     date = view.get_event_date()
 
     try:
@@ -56,9 +69,23 @@ def book_private_mentoring():
 
 
 def say_goodbye():
+    """
+    Call function that print goodbye massage to user
+    """
+
     view.print_goodbye()
 
 
 def convert_date(date_str):
+    """
+    Convert data from string to date object
+
+    Args:
+        date_str: date of event choose by user
+
+    Returns:
+        :obj: `date`: date of event choose by user
+    """
+
     date_list = date_str.split('-')
     return date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
