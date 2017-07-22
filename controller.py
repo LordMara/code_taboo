@@ -25,10 +25,6 @@ def print_all_evets():
     view.print_all_events(events.Event.get_events())
 
 
-def book_events():
-    pass
-
-
 def book_checkpoint():
     date = view.get_event_date()
 
