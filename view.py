@@ -20,6 +20,7 @@ def print_main_menu():
             1. Book private mentoring
             2. Book checkpoint
             3. Show all my events
+            4. Cancel event
             0. Exit program
           """)
 
@@ -67,7 +68,7 @@ def preferred_mentor():
 
 def get_goal():
     """
-    Take goal of private mentoring form user
+    Take goal of private mentoring from user
 
     Return:
         string: goal of private mentoring session
@@ -82,3 +83,14 @@ def print_msg(msg):
     """
 
     print(msg)
+
+
+def get_event_name():
+    """
+    Take event name from user
+
+    Return:
+        string: goal of private mentoring session
+    """
+
+    return input("Enter event name: ")
