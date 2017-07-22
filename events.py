@@ -17,7 +17,7 @@ class Event():
 
         while not is_sorted and len(cls.events) > 1:
             is_sorted = True
-            for i in range(len(events) - 1):
+            for i in range(len(cls.events) - 1):
                 if cls.events[i].date > cls.events[i+1].date:
                     temp = cls.events[i]
                     cls.events[i] = cls.events[i+1]
@@ -43,18 +43,24 @@ class Checkpoint(Event):
         Event.add_event(self)
         Checkpoint.add_event(self)
 
+    def get_chechpoint_details(self):
+        return self.get_event_date()
+
     def __str__(self):
         return '{} Checkpoint'.format(self.date)
 
 
-class PrivateMentroing(Event):
+class PrivateMentoring(Event):
 
     events = []
 
-    def __init__(self, date):
+    def __init__(self, date, goal, preffered_mentor):
         super().__init__(date)
         self.preffered_mentor = None
         self.goal = None
+
+        self.set_goal(goal)
+        self.set_preffered_mentor(preffered_mentor)
 
         Event.add_event(self)
         self.__class__.add_event(self)
@@ -67,4 +73,6 @@ class PrivateMentroing(Event):
 
     def __str__(self):
         return '{} Private mentoring with {} about {}'.format(self.date,
-            zself.preffered_mentor)
+                                                              self.preffered_mentor,
+                                                              self.goal
+                                                              )
