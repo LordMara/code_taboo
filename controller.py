@@ -31,18 +31,28 @@ def book_events():
 
 def book_checkpoint():
     date = view.get_event_date()
-    date = convert_date(date)
-    events.Checkpoint(date)
+
+    try:
+        date = convert_date(date)
+    except (ValueError, IndexError):
+        view.print_msg("Wrong data format!")
+    else:
+        events.Checkpoint(date)
 
 
 def book_private_mentoring():
     date = view.get_event_date()
-    date = convert_date(date)
 
-    goal = view.get_goal()
-    preffered_mentor = view.preferred_mentor()
+    try:
+        date = convert_date(date)
+    except (ValueError, IndexError):
+        view.print_msg("Wrong data format!")
+    else:
 
-    events.PrivateMentoring(date, goal, preffered_mentor)
+        goal = view.get_goal()
+        preffered_mentor = view.preferred_mentor()
+
+        events.PrivateMentoring(date, goal, preffered_mentor)
 
 
 def say_goodbye():
