@@ -17,7 +17,7 @@ class Event():
 
         while not is_sorted and len(cls.events) > 1:
             is_sorted = True
-            for i in range(len(events) - 1):
+            for i in range(len(cls.events) - 1):
                 if cls.events[i].date > cls.events[i+1].date:
                     temp = cls.events[i]
                     cls.events[i] = cls.events[i+1]
