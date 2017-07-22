@@ -67,6 +67,16 @@ class Event(metaclass=ABCMeta):
 
         return cls.events
 
+    @classmethod
+    """
+    Remove Event object form events list
+    """
+
+    def del_event(cls, date):
+        for event in cls.events:
+            if event.date == date:
+                Event.events.remove(event)
+
 
 class Checkpoint(Event):
     """
@@ -75,8 +85,6 @@ class Checkpoint(Event):
     Attributes:
         events (list of :obj: `Events`): list of all Events objects
     """
-
-    events = []
 
     def __init__(self, date):
         """
@@ -89,7 +97,6 @@ class Checkpoint(Event):
         super().__init__(date)
 
         Event.add_event(self)
-        Checkpoint.add_event(self)
 
     def __str__(self):
         """
@@ -106,8 +113,6 @@ class PrivateMentoring(Event):
     Attributes:
         events (list of :obj: `Events`): list of all Events objects
     """
-
-    events = []
 
     def __init__(self, date, goal, preffered_mentor):
         """
@@ -127,7 +132,6 @@ class PrivateMentoring(Event):
         self.set_preffered_mentor(preffered_mentor)
 
         Event.add_event(self)
-        self.__class__.add_event(self)
 
     def set_goal(self, goal):
         """
