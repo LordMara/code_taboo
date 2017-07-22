@@ -21,10 +21,6 @@ def get_choice():
     return input("Chose option: ")
 
 
-def get_chechpoint_details():
-    return self.get_event_date()
-
-
 def get_event_date():
     return input("Enter date in format dd-mm-yyyy: ")
 

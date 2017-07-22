@@ -43,6 +43,9 @@ class Checkpoint(Event):
         Event.add_event(self)
         Checkpoint.add_event(self)
 
+    def get_chechpoint_details(self):
+        return self.get_event_date()
+
     def __str__(self):
         return '{} Checkpoint'.format(self.date)
 
