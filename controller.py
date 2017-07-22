@@ -51,4 +51,4 @@ def say_goodbye():
 
 def convert_date(date_str):
     date_list = date_str.split('-')
-    return(date(int(date_list[2]), int(date_list[1]), int(date_list[0])))
+    return date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
