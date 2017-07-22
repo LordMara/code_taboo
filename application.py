@@ -1,10 +1,8 @@
-from controller import *
-from events import *
-from view import *
+import controller
 
 
 def main():
-    start()
+    controller.start()
 
 if __name__ == "__main__":
     main()
