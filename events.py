@@ -69,18 +69,33 @@ class Event(metaclass=ABCMeta):
 
 
 class Checkpoint(Event):
+    """
+    Class representing checkpoint events
+
+    Attributes:
+        events (list of :obj: `Events`): list of all Events objects
+    """
+
     events = []
 
     def __init__(self, date):
+        """
+        Construct Checkpoint event
+
+        Args:
+            date (:obj: `date`): date of checkpoint
+        """
+
         super().__init__(date)
 
         Event.add_event(self)
         Checkpoint.add_event(self)
 
-    def get_chechpoint_details(self):
-        return self.get_event_date()
-
     def __str__(self):
+        """
+        Return information about checkpoint date as formatted string
+        """
+
         return '{} Checkpoint'.format(self.date)
 
 
