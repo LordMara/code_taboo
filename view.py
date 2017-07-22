@@ -29,9 +29,9 @@ def get_event_date():
     return input("Enter date in format dd-mm-yyyy: ")
 
 
-def preferred_mentor(self):
+def preferred_mentor():
     return input("Enter preferred mentor: ")
 
 
-def get_goal(self):
+def get_goal():
     return input("Enter your goal: ")
