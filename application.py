@@ -4,8 +4,7 @@ from view import *
 
 
 def main():
-    controller = Controller()
-    controller.start()
+    start()
 
 if __name__ == "__main__":
     main()
