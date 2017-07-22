@@ -4,7 +4,9 @@ import events
 
 
 def start():
-    while True:
+    choice = None
+
+    while choice != "0":
         view.print_main_menu()
         choice = view.get_choice()
         if choice == "1":
@@ -13,8 +15,10 @@ def start():
             book_checkpoint()
         elif choice == "3":
             print_all_evets()
-        else:
+        elif choice == "0":
             say_goodbye()
+        else:
+            view.print_msg("Wrong option!")
 
 
 def print_all_evets():
@@ -34,7 +38,11 @@ def book_checkpoint():
 def book_private_mentoring():
     date = view.get_event_date()
     date = convert_date(date)
-    events.PrivateMentoring(date)
+
+    goal = view.get_goal()
+    preffered_mentor = view.preferred_mentor()
+
+    events.PrivateMentoring(date, goal, preffered_mentor)
 
 
 def say_goodbye():
