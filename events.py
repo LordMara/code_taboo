@@ -54,10 +54,13 @@ class PrivateMentoring(Event):
 
     events = []
 
-    def __init__(self, date):
+    def __init__(self, date, goal, preffered_mentor):
         super().__init__(date)
         self.preffered_mentor = None
         self.goal = None
+
+        self.set_goal(goal)
+        self.set_preffered_mentor(preffered_mentor)
 
         Event.add_event(self)
         self.__class__.add_event(self)
@@ -70,5 +73,6 @@ class PrivateMentoring(Event):
 
     def __str__(self):
         return '{} Private mentoring with {} about {}'.format(self.date,
-                                                              self.preffered_mentor
+                                                              self.preffered_mentor,
+                                                              self.goal
                                                               )
