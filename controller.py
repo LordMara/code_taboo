@@ -4,6 +4,11 @@ import events
 
 
 def start():
+    """
+    Contain main logic of controller, 
+    call functions to perform task choosen by user
+    """
+
     choice = None
 
     while choice != "0":
@@ -14,14 +19,14 @@ def start():
         elif choice == "2":
             book_checkpoint()
         elif choice == "3":
-            print_all_evets()
+            display_all_evets()
         elif choice == "0":
             say_goodbye()
         else:
             view.print_msg("Wrong option!")
 
 
-def print_all_evets():
+def dispaly_all_evets():
     view.print_all_events(events.Event.get_events())
 
 
