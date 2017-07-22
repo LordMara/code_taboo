@@ -80,7 +80,7 @@ class Checkpoint(Event):
 
     def __init__(self, date):
         """
-        Construct Checkpoint event
+        Construct Checkpoint object
 
         Args:
             date (:obj: `date`): date of checkpoint
@@ -100,10 +100,25 @@ class Checkpoint(Event):
 
 
 class PrivateMentoring(Event):
+    """
+    Class representing private mentoring events
+
+    Attributes:
+        events (list of :obj: `Events`): list of all Events objects
+    """
 
     events = []
 
     def __init__(self, date, goal, preffered_mentor):
+        """
+        Construct PrivateMentoring object
+
+        Args:
+            date (:obj: `date`): date of checkpoint
+            goal (string): gaol of private mentoring
+            preffered_mentor (string): preffered mentor to private mentoring sesion
+        """
+
         super().__init__(date)
         self.preffered_mentor = None
         self.goal = None
@@ -115,12 +130,30 @@ class PrivateMentoring(Event):
         self.__class__.add_event(self)
 
     def set_goal(self, goal):
+        """
+        Set goal of private moentoring
+
+        Args:
+            goal (string): gaol of private mentoring
+        """
+
         self.goal = goal
 
     def set_preffered_mentor(self, preffered_mentor):
+        """
+        Set goal of preffered mentor
+
+        Args:
+            preffered_mentor (string): preffered mentor to private mentoring sesion
+        """
+
         self.preffered_mentor = preffered_mentor
 
     def __str__(self):
+        """
+        Return information about private mentoring as formatted string
+        """
+
         return '{} Private mentoring with {} about {}'.format(self.date,
                                                               self.preffered_mentor,
                                                               self.goal
