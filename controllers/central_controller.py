@@ -1,3 +1,6 @@
+from controllers import mentor_controller
+from controllers import student_controller
+
 from models.mentor import Mentor
 from models.user import User
 from models.student import Student
@@ -35,10 +38,10 @@ def start_controller():
             view.print_msg(err)
         else:
             if user.__class__.__name__ == "Student":
-                pass
+                student_controller.start_controller(user)
 
             elif user.__class__.__name__ == "Mentor":
-                pass
+                mentor_controller.start_controller(user)
 
 
 def login_user(user_id, user_password):
