@@ -1,4 +1,6 @@
-from controllers import controller
+from controllers import central_controller
+
+from models.user import User
 
 
 def main():
@@ -6,7 +8,9 @@ def main():
     Contain main logic of program
     """
 
-    controller.start_controller()
+    central_controller.start_controller()
+
+    User.save_users(file_name="csv/users.csv")
 
 if __name__ == "__main__":
     main()
