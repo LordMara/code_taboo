@@ -1,6 +1,7 @@
 from datetime import date
 
 from models.checkpoint import Checkpoint
+from models.events import Event
 from models.private_mentoring import PrivateMentoring
 
 from views import view
@@ -65,7 +66,7 @@ def display_all_evets():
     Call function to print all Events objects to user
     """
 
-    view.print_all_events(Checkpoint.get_events())
+    view.print_all_events(Event.get_events())
 
 
 def book_checkpoint():
