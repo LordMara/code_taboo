@@ -90,3 +90,25 @@ def get_event_name():
     """
 
     return input("Enter event name: ")
+
+
+def get_user_id():
+    """
+    Take user id from user
+
+    Return:
+        string: user id
+    """
+
+    return input("Enter user id: ")
+
+
+def get_user_password():
+    """
+    Take user password from user
+
+    Return:
+        string: user password
+    """
+
+    return input("Enter user password: ")
