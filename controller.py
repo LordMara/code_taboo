@@ -22,6 +22,8 @@ def start():
             display_all_evets()
         elif choice == "4":
             cancel_event()
+        elif choice == "5":
+            reschedule_event()
         elif choice == "0":
             say_goodbye()
         else:
@@ -112,6 +114,31 @@ def cancel_event():
 
         elif event_name == "private mentoring":
             events.PrivateMentoring.del_event(date)
+
+        else:
+            view.print_msg("No such event!")
+
+
+def reschedule_event():
+    """
+    Call functions to change event date
+    """
+
+    date = view.get_event_date()
+    new_date = view.get_event_date()
+
+    try:
+        date = convert_date(date)
+        new_date = convert_date(new_date)
+    except (ValueError, IndexError):
+        view.print_msg("Wrong data format!")
+    else:
+        event_name = view.get_event_name().lower()
+        if event_name == "checkpoint":
+            events.Checkpoint.change_date(date, new_date)
+
+        elif event_name == "private mentoring":
+            events.PrivateMentoring.change_date(date, new_date)
 
         else:
             view.print_msg("No such event!")
