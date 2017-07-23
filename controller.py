@@ -45,11 +45,9 @@ def book_checkpoint():
 
     date = view.get_event_date()
 
-    try:
-        date = convert_date(date)
-    except (ValueError, IndexError):
-        view.print_msg("Wrong data format!")
-    else:
+    date = validate_date(date)
+
+    if date is not None:
         events.Checkpoint(date)
 
 
@@ -60,12 +58,9 @@ def book_private_mentoring():
 
     date = view.get_event_date()
 
-    try:
-        date = convert_date(date)
-    except (ValueError, IndexError):
-        view.print_msg("Wrong data format!")
-    else:
+    date = validate_date(date)
 
+    if date is not None:
         goal = view.get_goal()
         preffered_mentor = view.preferred_mentor()
 
@@ -102,11 +97,9 @@ def cancel_event():
 
     date = view.get_event_date()
 
-    try:
-        date = convert_date(date)
-    except (ValueError, IndexError):
-        view.print_msg("Wrong data format!")
-    else:
+    date = validate_date(date)
+
+    if date is not None:
         event_name = view.get_event_name().lower()
 
         if event_name == "checkpoint":
@@ -127,12 +120,10 @@ def reschedule_event():
     date = view.get_event_date()
     new_date = view.get_event_date()
 
-    try:
-        date = convert_date(date)
-        new_date = convert_date(new_date)
-    except (ValueError, IndexError):
-        view.print_msg("Wrong data format!")
-    else:
+    date = validate_date(date)
+    new_date = validate_date(new_date)
+
+    if date is not None and new_date is not None:
         event_name = view.get_event_name().lower()
         if event_name == "checkpoint":
             events.Checkpoint.change_date(date, new_date)
@@ -142,3 +133,15 @@ def reschedule_event():
 
         else:
             view.print_msg("No such event!")
+
+
+def validate_date(date):
+    try:
+        date = convert_date(date)
+    except (ValueError, IndexError):
+        view.print_msg("Wrong data format!")
+    else:
+        if date <= date.today():
+            view.print_msg("Date have to be in future!")
+        else:
+            return date
