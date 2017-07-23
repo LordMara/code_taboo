@@ -68,24 +68,20 @@ class Event(metaclass=ABCMeta):
         return cls.events
 
     @classmethod
-    def del_event(cls, date):
+    def del_event(cls, event):
         """
         Remove Event object form events list
         """
 
-        for event in cls.events:
-            if event.date == date and event.__class__.__name__ == cls.__name__:
-                Event.events.remove(event)
+        cls.events.remove(event)
 
-    @classmethod
-    def change_date(cls, date, new_date):
+    @staticmethod
+    def change_date(event, new_date):
         """
         Change event date
         """
 
-        for event in cls.events:
-            if event.date == date and event.__class__.__name__ == cls.__name__:
-                event.date = new_date
+        event.date = new_date
 
     @abstractclassmethod
     def save_events(cls, file_name):
