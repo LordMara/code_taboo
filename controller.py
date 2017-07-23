@@ -72,7 +72,7 @@ def book_checkpoint():
 
     date = view.get_event_date()
 
-    date = validate_date_format(date)
+    date = validate_date(date)
 
     if date is not None:
         events.Checkpoint(date)
@@ -85,7 +85,7 @@ def book_private_mentoring():
 
     date = view.get_event_date()
 
-    date = validate_date_format(date)
+    date = validate_date(date)
     preffered_mentor = choice_preffered_mentor()
 
     if date is not None and preffered_mentor is not None:
@@ -124,7 +124,7 @@ def cancel_event():
 
     date = view.get_event_date()
 
-    date = validate_date_format(date)
+    date = validate_date(date, False)
 
     if date is not None:
         event_name = view.get_event_name().lower()
@@ -150,8 +150,8 @@ def reschedule_event():
     view.print_msg("Enter new event date")
     new_date = view.get_event_date()
 
-    date = validate_date_format(date)
-    new_date = validate_date_format(new_date)
+    date = validate_date(date, False)
+    new_date = validate_date(new_date)
 
     if date is not None and new_date is not None:
         event_name = view.get_event_name().lower()
@@ -165,9 +165,10 @@ def reschedule_event():
             view.print_msg("No such event!")
 
 
-def validate_date_format(date_str):
+def validate_date(date_str, future_date=True):
     """
-    Validate if givan date is correct
+    Validate if given date is correct
+    and if parametr future_date set tu True check if date is in future
 
     Args:
         date_str: date of event choose by user
@@ -186,25 +187,13 @@ def validate_date_format(date_str):
     except (ValueError, IndexError):
         view.print_msg("Wrong data format!")
     else:
-        return date
-
-
-def validate_date_future(date):
-    """
-    Validate if givan date is in future
-
-    Args:
-        date_str: date of event choose by user
-
-    Returns:
-        :obj: `date`: date of event choose by user
-    """
-
-    # not call enywhere
-    if date <= date.today():
-        view.print_msg("Date have to be in future!")
-    else:
-        return date
+        if future_date:
+            if date <= date.today():
+                view.print_msg("Date have to be in future!")
+            else:
+                return date
+        else:
+            return date
 
 
 def choice_preffered_mentor():
