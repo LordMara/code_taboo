@@ -168,6 +168,7 @@ def validate_date_future(date):
         :obj: `date`: date of event choose by user
     """
 
+    # not call enywhere
     if date <= date.today():
         view.print_msg("Date have to be in future!")
     else:
