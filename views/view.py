@@ -21,7 +21,7 @@ def print_menu(head, options_list, exit_msg):
     print(head)
     for value, option in enumerate(options_list, 1):
         print("\t{}. {}".format(value, option))
-    print("\t0. {}".format(exit_msg))
+    print("\t0. {}\n".format(exit_msg))
 
 
 def print_goodbye():
@@ -54,17 +54,6 @@ def get_event_date():
     return input("Enter date in format dd-mm-yyyy: ")
 
 
-def preferred_mentor():
-    """
-    Take name of preffered mento from user
-
-    Returns:
-        string: mentor's name
-    """
-
-    return input("Enter preferred mentor: ")
-
-
 def get_goal():
     """
     Take goal of private mentoring from user
@@ -82,17 +71,6 @@ def print_msg(msg):
     """
 
     print(msg)
-
-
-def get_event_name():
-    """
-    Take event name from user
-
-    Return:
-        string: goal of private mentoring session
-    """
-
-    return input("Enter event name: ")
 
 
 def get_user_id():
