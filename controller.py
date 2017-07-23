@@ -9,6 +9,9 @@ def start():
     call functions to perform task choosen by user
     """
 
+    events.Checkpoint.read_events()
+    events.PrivateMentoring.read_events()
+
     choice = None
 
     head = "Chose option:"
