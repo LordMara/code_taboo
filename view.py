@@ -10,20 +10,15 @@ def print_all_events(events):
         print(event)
 
 
-def print_main_menu():
+def print_menu(head, options_list, exit_msg):
     """
     Print menu of program
     """
 
-    print("""
-            Chose option:
-            1. Book private mentoring
-            2. Book checkpoint
-            3. Show all my events
-            4. Cancel event
-            5. Reschedule event
-            0. Exit program
-          """)
+    print(head)
+    for value, option in enumerate(options_list, 1):
+        print("\t{}. {}".format(value, option))
+    print("\t0. {}".format(exit_msg))
 
 
 def print_goodbye():
