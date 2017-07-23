@@ -39,6 +39,7 @@ def start_controller(user):
     exit_msg = "Exit program"
 
     while choice != "0":
+        view.print_msg("Welcome {} {}\n".format(user.name, user.surname))
         view.print_menu(head, options_list, exit_msg)
         choice = view.get_choice()
         if choice == "1":
@@ -52,7 +53,7 @@ def start_controller(user):
         elif choice == "0":
             say_goodbye()
         else:
-            view.print_msg("Wrong option!")
+            view.print_msg("Wrong option!\n")
 
     Checkpoint.save_events()
     PrivateMentoring.save_events()
@@ -71,7 +72,7 @@ def display_user_evets(user_id):
 
     events = Event.get_events()
     for event in events:
-        if event.user_id == user_id or event.user_id[0:2] == "mt" and event.__class__.__name__ == "Checkpoint":
+        if event.user_id == user_id or event.__class__.__name__ == "Checkpoint":
             user_events.append(event)
 
     view.print_all_events(user_events)
@@ -124,14 +125,27 @@ def cancel_event(user_id):
     Call functions to cancel event
     """
 
-    date = view.get_event_date()
+    choice = None
+    temp_event_list = []
 
-    date = validate_date(date, False)
+    for event in Event.events:
+        if event.__class__.__name__ == "PrivateMentoring" and event.user_id == user_id:
+            temp_event_list.append(event)
 
-    if date is not None:
-        for event in Event.events:
-            if event.date == date and event.__class__.__name__ == "PrivateMentoring" and event.user_id == user_id:
-                PrivateMentoring.del_event(event)
+    head = "Chose option:"
+    exit_msg = "Exit event cancelation"
+
+    view.print_menu(head, temp_event_list, exit_msg)
+
+    choice = view.get_choice()
+    choice = int(choice) - 1
+
+    if choice == - 1:
+        pass
+    elif choice >= len(temp_event_list):
+        view.print_msg("No such event!\n")
+    else:
+        PrivateMentoring.del_event(temp_event_list[choice])
 
 
 def reschedule_event(user_id):
@@ -139,19 +153,34 @@ def reschedule_event(user_id):
     Call functions to change event date
     """
 
-    view.print_msg("Enter old event date")
-    date = view.get_event_date()
+    choice = None
+    temp_event_list = []
 
-    view.print_msg("Enter new event date")
-    new_date = view.get_event_date()
+    for event in Event.events:
+        if event.__class__.__name__ == "PrivateMentoring" and event.user_id == user_id:
+            temp_event_list.append(event)
 
-    date = validate_date(date, False)
-    new_date = validate_date(new_date)
+    head = "Chose option:"
+    exit_msg = "Exit event reschedule"
 
-    if date is not None and new_date is not None:
-        for event in Event.events:
-            if event.date == date and event.__class__.__name__ == "PrivateMentoring" and event.user_id == user_id:
-                PrivateMentoring.change_date(event, new_date)
+    view.print_menu(head, temp_event_list, exit_msg)
+
+    choice = view.get_choice()
+    choice = int(choice) - 1
+
+    if choice == - 1:
+        pass
+    elif choice >= len(temp_event_list):
+        view.print_msg("No such event!\n")
+    else:
+
+        view.print_msg("Enter new event date")
+        new_date = view.get_event_date()
+
+        new_date = validate_date(new_date)
+
+        if new_date is not None:
+            Event.change_date(temp_event_list[choice], new_date)
 
 
 def validate_date(date_str, future_date=True):
@@ -174,11 +203,11 @@ def validate_date(date_str, future_date=True):
     try:
         date = convert_date(date_str)
     except (ValueError, IndexError):
-        view.print_msg("Wrong data format!")
+        view.print_msg("Wrong data format!\n")
     else:
         if future_date:
             if date <= date.today():
-                view.print_msg("Date have to be in future!")
+                view.print_msg("Date have to be in future!\n")
             else:
                 return date
         else:
