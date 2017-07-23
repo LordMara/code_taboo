@@ -7,10 +7,22 @@ def start():
     """
     Contain main logic of controller,
     call functions to perform task choosen by user
+
+    Raises:
+        FileNotFoundError: if file to open is not present
     """
 
-    events.Checkpoint.read_events()
-    events.PrivateMentoring.read_events()
+    try:
+        events.Checkpoint.read_events()
+    except FileNotFoundError as err:
+        view.print_msg(err)
+        pass
+
+    try:
+        events.PrivateMentoring.read_events()
+    except FileNotFoundError as err:
+        view.print_msg(err)
+        pass
 
     choice = None
 
