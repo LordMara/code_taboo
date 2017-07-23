@@ -72,8 +72,9 @@ class Event(metaclass=ABCMeta):
         """
         Remove Event object form events list
         """
+
         for event in cls.events:
-            if event.date == date:
+            if event.date == date and event.__class__.__name__ == cls.__name__:
                 Event.events.remove(event)
 
     @classmethod
@@ -81,8 +82,9 @@ class Event(metaclass=ABCMeta):
         """
         Change event date
         """
+
         for event in cls.events:
-            if event.date == date:
+            if event.date == date and event.__class__.__name__ == cls.__name__:
                 event.date = new_date
 
 
