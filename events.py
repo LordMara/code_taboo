@@ -1,4 +1,7 @@
-from abc import ABCMeta
+import csv
+
+from abc import ABCMeta, abstractclassmethod
+from datetime import datetime
 
 
 class Event(metaclass=ABCMeta):
@@ -67,6 +70,48 @@ class Event(metaclass=ABCMeta):
 
         return cls.events
 
+    @classmethod
+    def del_event(cls, date):
+        """
+        Remove Event object form events list
+        """
+
+        for event in cls.events:
+            if event.date == date and event.__class__.__name__ == cls.__name__:
+                Event.events.remove(event)
+
+    @classmethod
+    def change_date(cls, date, new_date):
+        """
+        Change event date
+        """
+
+        for event in cls.events:
+            if event.date == date and event.__class__.__name__ == cls.__name__:
+                event.date = new_date
+
+    @abstractclassmethod
+    def save_events(cls, file_name):
+        """
+        Save Events objects from events list to file of given name
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        pass
+
+    @abstractclassmethod
+    def read_events(cls, file_name):
+        """
+        Read Events objects from csv of given name and add them to list of events
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        pass
+
 
 class Checkpoint(Event):
     """
@@ -75,8 +120,6 @@ class Checkpoint(Event):
     Attributes:
         events (list of :obj: `Events`): list of all Events objects
     """
-
-    events = []
 
     def __init__(self, date):
         """
@@ -89,7 +132,6 @@ class Checkpoint(Event):
         super().__init__(date)
 
         Event.add_event(self)
-        Checkpoint.add_event(self)
 
     def __str__(self):
         """
@@ -97,6 +139,45 @@ class Checkpoint(Event):
         """
 
         return '{} Checkpoint'.format(self.date)
+
+    @classmethod
+    def save_events(cls, file_name="checkpoint.csv"):
+        """
+        Save Checkpoint objects from events list to file of given name
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        list_to_save = []
+
+        with open(file_name, "w", newline="") as csvfile:
+            file_writier = csv.writer(csvfile, delimiter="|")
+
+            for event in cls.events:
+                if event.__class__.__name__ == cls.__name__:
+                    list_to_save.append(event.__class__.__name__)
+                    list_to_save.append(str(event.date))
+
+                    file_writier.writerow(list_to_save)
+
+    @classmethod
+    def read_events(cls, file_name="checkpoint.csv"):
+        """
+        Read Checkpoint objects from csv of given name and add them to list of events
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        with open(file_name, "r", newline="") as csvfile:
+            file_reader = csv.reader(csvfile, delimiter="|")
+
+            for row in file_reader:
+                if row[0] == cls.__name__:
+                    date = datetime.strptime(row[1], "%Y-%m-%d").date()
+
+                    cls(date)
 
 
 class PrivateMentoring(Event):
@@ -106,8 +187,6 @@ class PrivateMentoring(Event):
     Attributes:
         events (list of :obj: `Events`): list of all Events objects
     """
-
-    events = []
 
     def __init__(self, date, goal, preffered_mentor):
         """
@@ -127,7 +206,6 @@ class PrivateMentoring(Event):
         self.set_preffered_mentor(preffered_mentor)
 
         Event.add_event(self)
-        self.__class__.add_event(self)
 
     def set_goal(self, goal):
         """
@@ -158,3 +236,46 @@ class PrivateMentoring(Event):
                                                               self.preffered_mentor,
                                                               self.goal
                                                               )
+
+    @classmethod
+    def save_events(cls, file_name="private_mentoring.csv"):
+        """
+        Save PrivateMentoring objects from events list to file of given name
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        list_to_save = []
+
+        with open(file_name, "w", newline="") as csvfile:
+            file_writier = csv.writer(csvfile, delimiter="|")
+
+            for event in cls.events:
+                if event.__class__.__name__ == cls.__name__:
+                    list_to_save.append(event.__class__.__name__)
+                    list_to_save.append(str(event.date))
+                    list_to_save.append(event.preffered_mentor)
+                    list_to_save.append(event.goal)
+
+                    file_writier.writerow(list_to_save)
+
+    @classmethod
+    def read_events(cls, file_name="private_mentoring.csv"):
+        """
+        Read PrivateMentoring objects from csv of given name and add them to list of events
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        with open(file_name, "r", newline="") as csvfile:
+            file_reader = csv.reader(csvfile, delimiter="|")
+
+            for row in file_reader:
+                if row[0] == cls.__name__:
+                    date = datetime.strptime(row[1], "%Y-%m-%d").date()
+                    preffered_mentor = row[2]
+                    goal = row[3]
+
+                    cls(date, preffered_mentor, goal)
