@@ -45,7 +45,7 @@ def book_checkpoint():
 
     date = view.get_event_date()
 
-    date = validate_date(date)
+    date = validate_date_format(date)
 
     if date is not None:
         events.Checkpoint(date)
@@ -58,7 +58,7 @@ def book_private_mentoring():
 
     date = view.get_event_date()
 
-    date = validate_date(date)
+    date = validate_date_format(date)
 
     if date is not None:
         goal = view.get_goal()
@@ -97,7 +97,7 @@ def cancel_event():
 
     date = view.get_event_date()
 
-    date = validate_date(date)
+    date = validate_date_format(date)
 
     if date is not None:
         event_name = view.get_event_name().lower()
@@ -123,8 +123,8 @@ def reschedule_event():
     view.print_msg("Enter new event date")
     new_date = view.get_event_date()
 
-    date = validate_date(date)
-    new_date = validate_date(new_date)
+    date = validate_date_format(date)
+    new_date = validate_date_format(new_date)
 
     if date is not None and new_date is not None:
         event_name = view.get_event_name().lower()
@@ -138,12 +138,15 @@ def reschedule_event():
             view.print_msg("No such event!")
 
 
-def validate_date(date_str):
+def validate_date_format(date_str):
     """
-    Validate if givan date is correct and is in future
+    Validate if givan date is correct
 
     Args:
         date_str: date of event choose by user
+
+    Returns:
+        :obj: `date`: date of event choose by user
     """
 
     try:
@@ -151,7 +154,21 @@ def validate_date(date_str):
     except (ValueError, IndexError):
         view.print_msg("Wrong data format!")
     else:
-        if date <= date.today():
-            view.print_msg("Date have to be in future!")
-        else:
-            return date
+        return date
+
+
+def validate_date_future(date):
+    """
+    Validate if givan date is in future
+
+    Args:
+        date_str: date of event choose by user
+
+    Returns:
+        :obj: `date`: date of event choose by user
+    """
+
+    if date <= date.today():
+        view.print_msg("Date have to be in future!")
+    else:
+        return date
