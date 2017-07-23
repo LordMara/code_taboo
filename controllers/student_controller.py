@@ -129,7 +129,7 @@ def cancel_event(user_id):
     date = validate_date(date, False)
 
     if date is not None:
-        for event in PrivateMentoring.events:
+        for event in Event.events:
             if event.date == date and event.__class__.__name__ == "PrivateMentoring" and event.user_id == user_id:
                 PrivateMentoring.del_event(event)
 
@@ -149,7 +149,7 @@ def reschedule_event(user_id):
     new_date = validate_date(new_date)
 
     if date is not None and new_date is not None:
-        for event in PrivateMentoring.events:
+        for event in Event.events:
             if event.date == date and event.__class__.__name__ == "PrivateMentoring" and event.user_id == user_id:
                 PrivateMentoring.change_date(event, new_date)
 
