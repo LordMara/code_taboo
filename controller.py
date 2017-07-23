@@ -117,7 +117,10 @@ def reschedule_event():
     Call functions to change event date
     """
 
+    view.print_msg("Enter old event date")
     date = view.get_event_date()
+
+    view.print_msg("Enter new event date")
     new_date = view.get_event_date()
 
     date = validate_date(date)
