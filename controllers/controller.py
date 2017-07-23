@@ -79,6 +79,8 @@ def book_checkpoint():
 
     if date is not None:
         Checkpoint(date)
+    else:
+        view.print_msg("Checkpoint not scheduled!")
 
 
 def book_private_mentoring():
@@ -90,11 +92,14 @@ def book_private_mentoring():
 
     date = validate_date(date)
     preffered_mentor = choice_preffered_mentor()
+    goal = view.get_goal()
 
-    if date is not None and preffered_mentor is not None:
-        goal = view.get_goal()
+    if date is not None and preffered_mentor is not None and goal:
 
         PrivateMentoring(date, goal, preffered_mentor)
+
+    else:
+        view.print_msg("Mentoring not scheduled!")
 
 
 def say_goodbye():
