@@ -62,5 +62,4 @@ def login_user(user_id, user_password):
     for user in User.users_list:
         if user_id == user.user_id and user_password == user.password:
             return user
-        else:
-            raise ValueError("Wrong user id or password!")
+    raise ValueError("Wrong user id or password!")
