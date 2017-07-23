@@ -13,7 +13,7 @@ class PrivateMentoring(Event):
         events (list of :obj: `Events`): list of all Events objects
     """
 
-    def __init__(self, date, goal, preffered_mentor):
+    def __init__(self, date, goal, preffered_mentor, user_id):
         """
         Construct PrivateMentoring object
 
@@ -24,6 +24,8 @@ class PrivateMentoring(Event):
         """
 
         super().__init__(date)
+        self.user_id = user_id
+
         self.preffered_mentor = None
         self.goal = None
 
@@ -82,6 +84,7 @@ class PrivateMentoring(Event):
                     list_to_save.append(str(event.date))
                     list_to_save.append(event.goal)
                     list_to_save.append(event.preffered_mentor)
+                    list_to_save.append(event.user_id)
 
                     file_writier.writerow(list_to_save)
 
@@ -102,5 +105,6 @@ class PrivateMentoring(Event):
                     date = datetime.strptime(row[1], "%Y-%m-%d").date()
                     goal = row[2]
                     preffered_mentor = row[3]
+                    user_id = row[4]
 
-                    cls(date, goal, preffered_mentor)
+                    cls(date, goal, preffered_mentor, user_id)

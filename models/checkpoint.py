@@ -13,7 +13,7 @@ class Checkpoint(Event):
         events (list of :obj: `Events`): list of all Events objects
     """
 
-    def __init__(self, date):
+    def __init__(self, date, user_id):
         """
         Construct Checkpoint object
 
@@ -22,6 +22,7 @@ class Checkpoint(Event):
         """
 
         super().__init__(date)
+        self.user_id = user_id
 
         Event.add_event(self)
 
@@ -50,6 +51,7 @@ class Checkpoint(Event):
                 if event.__class__.__name__ == cls.__name__:
                     list_to_save.append(event.__class__.__name__)
                     list_to_save.append(str(event.date))
+                    list_to_save.append(event.user_id)
 
                     file_writier.writerow(list_to_save)
 
@@ -68,5 +70,6 @@ class Checkpoint(Event):
             for row in file_reader:
                 if row[0] == cls.__name__:
                     date = datetime.strptime(row[1], "%Y-%m-%d").date()
+                    user_id = row[2]
 
-                    cls(date)
+                    cls(date, user_id)

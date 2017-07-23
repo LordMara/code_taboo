@@ -1,3 +1,6 @@
+import getpass
+
+
 def print_all_events(events):
     """
     Print all events from events list
@@ -90,3 +93,25 @@ def get_event_name():
     """
 
     return input("Enter event name: ")
+
+
+def get_user_id():
+    """
+    Take user id from user
+
+    Return:
+        string: user id
+    """
+
+    return input("Enter user id: ")
+
+
+def get_user_password():
+    """
+    Take user password from user
+
+    Return:
+        string: user password
+    """
+
+    return getpass.getpass(prompt="Enter user password: ")

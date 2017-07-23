@@ -1,12 +1,13 @@
 from datetime import date
 
 from models.checkpoint import Checkpoint
+from models.events import Event
 from models.private_mentoring import PrivateMentoring
 
 from views import view
 
 
-def start_controller():
+def start_controller(user):
     """
     Contain main logic of controller,
     call functions to perform task choosen by user
@@ -30,8 +31,7 @@ def start_controller():
     choice = None
 
     head = "Chose option:"
-    options_list = ["Book private mentoring",
-                    "Book checkpoint",
+    options_list = ["Book checkpoint",
                     "Show all my events",
                     "Cancel event",
                     "Reschedule event"
@@ -42,15 +42,13 @@ def start_controller():
         view.print_menu(head, options_list, exit_msg)
         choice = view.get_choice()
         if choice == "1":
-            book_private_mentoring()
+            book_checkpoint(user.user_id)
         elif choice == "2":
-            book_checkpoint()
+            display_all_students_evets(user.user_id)
         elif choice == "3":
-            display_all_evets()
+            cancel_event(user.user_id)
         elif choice == "4":
-            cancel_event()
-        elif choice == "5":
-            reschedule_event()
+            reschedule_event(user.user_id)
         elif choice == "0":
             say_goodbye()
         else:
@@ -60,15 +58,26 @@ def start_controller():
     PrivateMentoring.save_events()
 
 
-def display_all_evets():
+def display_all_students_evets(user_id):
     """
-    Call function to print all Events objects to user
+    Call function to print all students and user Events object
+    and all Checkpoint objects
+
+    Examples:
+        "st" are two first signs of student id
     """
 
-    view.print_all_events(Checkpoint.get_events())
+    user_events = []
+
+    events = Event.get_events()
+    for event in events:
+        if event.user_id == user_id or event.user_id[0:2] == "st" or event.__class__.__name__ == "Checkpoint":
+            user_events.append(event)
+
+    view.print_all_events(user_events)
 
 
-def book_checkpoint():
+def book_checkpoint(user_id):
     """
     Call functions that allow user create Checkpoint object
     """
@@ -78,28 +87,9 @@ def book_checkpoint():
     date = validate_date(date)
 
     if date is not None:
-        Checkpoint(date)
+        Checkpoint(date, user_id)
     else:
         view.print_msg("Checkpoint not scheduled!")
-
-
-def book_private_mentoring():
-    """
-    Call functions that allow user create PrivateMentoring object
-    """
-
-    date = view.get_event_date()
-
-    date = validate_date(date)
-    preffered_mentor = choice_preffered_mentor()
-    goal = view.get_goal()
-
-    if date is not None and preffered_mentor is not None and goal:
-
-        PrivateMentoring(date, goal, preffered_mentor)
-
-    else:
-        view.print_msg("Mentoring not scheduled!")
 
 
 def say_goodbye():
@@ -125,9 +115,12 @@ def convert_date(date_str):
     return date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
 
 
-def cancel_event():
+def cancel_event(user_id):
     """
     Call functions to cancel event
+
+    Examples:
+        "st" are two first signs of student id
     """
 
     date = view.get_event_date()
@@ -135,21 +128,26 @@ def cancel_event():
     date = validate_date(date, False)
 
     if date is not None:
-        event_name = view.get_event_name().lower()
+        for event in Event.events:
+            if event.date == date and event.user_id == user_id or event.user_id[0:2] == "st":
+                event_name = view.get_event_name().lower()
 
-        if event_name == "checkpoint":
-            Checkpoint.del_event(date)
+                if event_name == "checkpoint":
+                    Checkpoint.del_event(event)
 
-        elif event_name == "private mentoring":
-            PrivateMentoring.del_event(date)
+                elif event_name == "private mentoring":
+                    PrivateMentoring.del_event(event)
 
-        else:
-            view.print_msg("No such event!")
+                else:
+                    view.print_msg("No such event!")
 
 
-def reschedule_event():
+def reschedule_event(user_id):
     """
     Call functions to change event date
+
+    Examples:
+        "st" are two first signs of student id
     """
 
     view.print_msg("Enter old event date")
@@ -162,15 +160,17 @@ def reschedule_event():
     new_date = validate_date(new_date)
 
     if date is not None and new_date is not None:
-        event_name = view.get_event_name().lower()
-        if event_name == "checkpoint":
-            Checkpoint.change_date(date, new_date)
+        for event in Event.events:
+            if event.date == date and event.user_id == user_id or event.user_id[0:2] == "st":
+                event_name = view.get_event_name().lower()
+                if event_name == "checkpoint":
+                    Checkpoint.change_date(event, new_date)
 
-        elif event_name == "private mentoring":
-            PrivateMentoring.change_date(date, new_date)
+                elif event_name == "private mentoring":
+                    PrivateMentoring.change_date(event, new_date)
 
-        else:
-            view.print_msg("No such event!")
+                else:
+                    view.print_msg("No such event!")
 
 
 def validate_date(date_str, future_date=True):
@@ -202,43 +202,3 @@ def validate_date(date_str, future_date=True):
                 return date
         else:
             return date
-
-
-def choice_preffered_mentor():
-    """
-    Call functions to diplay manu and choose preferred mentor
-    """
-
-    AVAIALBLE_OPTIONS_LIST = ["0", "1", "2", "3", "4", "5"]
-
-    choice = None
-    preffered_mentor = None
-
-    head = "Chose option:"
-    options_list = ["Mateusz Ostafi",
-                    "Agnieszka Koszany",
-                    "Dominik Starzyk",
-                    "Mateusz Steliga",
-                    "Marcin Izworski"
-                    ]
-    exit_msg = "Exit booking provate mentoring"
-
-    while choice not in AVAIALBLE_OPTIONS_LIST:
-        view.print_menu(head, options_list, exit_msg)
-        choice = view.get_choice()
-        if choice == "1":
-            preffered_mentor = "Mateusz Ostafi"
-        elif choice == "2":
-            preffered_mentor = "Agnieszka Koszany"
-        elif choice == "3":
-            preffered_mentor = "Dominik Starzyk"
-        elif choice == "4":
-            preffered_mentor = "Mateusz Steliga"
-        elif choice == "5":
-            preffered_mentor = "Marcin Izworski"
-        elif choice == "0":
-            view.print_msg("End of booking")
-        else:
-            view.print_msg("Wrong option!")
-
-    return preffered_mentor
