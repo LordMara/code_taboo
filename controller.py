@@ -38,6 +38,9 @@ def start():
         else:
             view.print_msg("Wrong option!")
 
+    events.Checkpoint.save_events()
+    events.PrivateMentoring.save_events()
+
 
 def display_all_evets():
     """
