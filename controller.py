@@ -135,9 +135,16 @@ def reschedule_event():
             view.print_msg("No such event!")
 
 
-def validate_date(date):
+def validate_date(date_str):
+    """
+    Validate if givan date is correct and is in future
+
+    Args:
+        date_str: date of event choose by user
+    """
+
     try:
-        date = convert_date(date)
+        date = convert_date(date_str)
     except (ValueError, IndexError):
         view.print_msg("Wrong data format!")
     else:
