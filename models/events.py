@@ -50,7 +50,7 @@ class Event(metaclass=ABCMeta):
     @classmethod
     def add_event(cls, event):
         """
-        Add event to events list and call function to rot that list
+        Add event to events list and call function to sort that list
 
         Args:
             event (:obj: `Event`): some event
