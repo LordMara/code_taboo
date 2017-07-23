@@ -1,6 +1,7 @@
 import csv
 
 from abc import ABCMeta, abstractclassmethod
+from datetime import datetime
 
 
 class Event(metaclass=ABCMeta):
@@ -100,6 +101,17 @@ class Event(metaclass=ABCMeta):
 
         pass
 
+    @abstractclassmethod
+    def read_events(cls, file_name):
+        """
+        Read Events objects from csv of given name and add them to list of events
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        pass
+
 
 class Checkpoint(Event):
     """
@@ -148,6 +160,24 @@ class Checkpoint(Event):
                     list_to_save.append(str(event.date))
 
                     file_writier.writerow(list_to_save)
+
+    @classmethod
+    def read_events(cls, file_name="checkpoint.csv"):
+        """
+        Read Checkpoint objects from csv of given name and add them to list of events
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        with open(file_name, "r", newline="") as csvfile:
+            file_reader = csv.reader(csvfile, delimiter="|")
+
+            for row in file_reader:
+                if row[0] == cls.__name__:
+                    date = datetime.strptime(row[1], "%Y-%m-%d").date()
+
+                    cls(date)
 
 
 class PrivateMentoring(Event):
@@ -229,3 +259,23 @@ class PrivateMentoring(Event):
                     list_to_save.append(event.goal)
 
                     file_writier.writerow(list_to_save)
+
+    @classmethod
+    def read_events(cls, file_name="private_mentoring.csv"):
+        """
+        Read PrivateMentoring objects from csv of given name and add them to list of events
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        with open(file_name, "r", newline="") as csvfile:
+            file_reader = csv.reader(csvfile, delimiter="|")
+
+            for row in file_reader:
+                if row[0] == cls.__name__:
+                    date = datetime.strptime(row[1], "%Y-%m-%d").date()
+                    preffered_mentor = row[2]
+                    goal = row[3]
+
+                    cls(date, preffered_mentor, goal)
