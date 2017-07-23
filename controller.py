@@ -5,14 +5,23 @@ import events
 
 def start():
     """
-    Contain main logic of controller, 
+    Contain main logic of controller,
     call functions to perform task choosen by user
     """
 
     choice = None
 
+    head = "Chose option:"
+    options_list = ["Book private mentoring",
+                    "Book checkpoint",
+                    "Show all my events",
+                    "Cancel event",
+                    "Reschedule event"
+                    ]
+    exit_msg = "Exit program"
+
     while choice != "0":
-        view.print_main_menu()
+        view.print_menu(head, options_list, exit_msg)
         choice = view.get_choice()
         if choice == "1":
             book_private_mentoring()
