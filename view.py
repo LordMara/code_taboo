@@ -21,6 +21,7 @@ def print_main_menu():
             2. Book checkpoint
             3. Show all my events
             4. Cancel event
+            5. Reschedule event
             0. Exit program
           """)
 
