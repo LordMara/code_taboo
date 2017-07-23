@@ -39,7 +39,7 @@ def start_controller(user):
     exit_msg = "Exit program"
 
     while choice != "0":
-        view.print_msg("Welcome {} {}\n".format(user.name, user.surname))
+        view.print_msg("\nWelcome {} {}".format(user.name, user.surname))
         view.print_menu(head, options_list, exit_msg)
         choice = view.get_choice()
         if choice == "1":
