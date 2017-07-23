@@ -1,6 +1,9 @@
 from datetime import date
-import view
-import events
+
+from models.checkpoint import Checkpoint
+from models.private_mentoring import PrivateMentoring
+
+from views import view
 
 
 def start_controller():
@@ -13,13 +16,13 @@ def start_controller():
     """
 
     try:
-        events.Checkpoint.read_events()
+        Checkpoint.read_events()
     except FileNotFoundError as err:
         view.print_msg(err)
         pass
 
     try:
-        events.PrivateMentoring.read_events()
+        PrivateMentoring.read_events()
     except FileNotFoundError as err:
         view.print_msg(err)
         pass
@@ -53,8 +56,8 @@ def start_controller():
         else:
             view.print_msg("Wrong option!")
 
-    events.Checkpoint.save_events()
-    events.PrivateMentoring.save_events()
+    Checkpoint.save_events()
+    PrivateMentoring.save_events()
 
 
 def display_all_evets():
@@ -62,7 +65,7 @@ def display_all_evets():
     Call function to print all Events objects to user
     """
 
-    view.print_all_events(events.Event.get_events())
+    view.print_all_events(Checkpoint.get_events())
 
 
 def book_checkpoint():
@@ -75,7 +78,7 @@ def book_checkpoint():
     date = validate_date(date)
 
     if date is not None:
-        events.Checkpoint(date)
+        Checkpoint(date)
 
 
 def book_private_mentoring():
@@ -91,7 +94,7 @@ def book_private_mentoring():
     if date is not None and preffered_mentor is not None:
         goal = view.get_goal()
 
-        events.PrivateMentoring(date, goal, preffered_mentor)
+        PrivateMentoring(date, goal, preffered_mentor)
 
 
 def say_goodbye():
@@ -130,10 +133,10 @@ def cancel_event():
         event_name = view.get_event_name().lower()
 
         if event_name == "checkpoint":
-            events.Checkpoint.del_event(date)
+            Checkpoint.del_event(date)
 
         elif event_name == "private mentoring":
-            events.PrivateMentoring.del_event(date)
+            PrivateMentoring.del_event(date)
 
         else:
             view.print_msg("No such event!")
@@ -156,10 +159,10 @@ def reschedule_event():
     if date is not None and new_date is not None:
         event_name = view.get_event_name().lower()
         if event_name == "checkpoint":
-            events.Checkpoint.change_date(date, new_date)
+            Checkpoint.change_date(date, new_date)
 
         elif event_name == "private mentoring":
-            events.PrivateMentoring.change_date(date, new_date)
+            PrivateMentoring.change_date(date, new_date)
 
         else:
             view.print_msg("No such event!")
