@@ -12,7 +12,7 @@ class Mentor(User):
     @classmethod
     def read_users(cls, file_name="csv/users.csv"):
         """
-        Read User objects from csv of given name and add them to list of users
+        Read Mentor objects from csv of given name and add them to list of users
 
         Args:
             file_name (string): name of csv file
