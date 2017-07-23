@@ -42,6 +42,20 @@ def start_controller():
 
 
 def login_user(user_id, user_password):
+    """
+    Validate if user id and password are correct
+
+    Args:
+        user_id (string): user id
+        password (string): user password
+
+    Returns:
+        :obj: `User`: object representation of user
+
+    Raises:
+        Value Error: if uer id or password are wrong
+    """
+
     for user in User.users_list:
         if user_id == user.user_id and user_password == user.password:
             return user
