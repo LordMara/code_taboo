@@ -1,6 +1,6 @@
 import csv
 
-from abc import ABCMeta
+from abc import ABCMeta, abstractclassmethod
 
 
 class User(metaclass=ABCMeta):
@@ -63,8 +63,8 @@ class User(metaclass=ABCMeta):
 
                 file_writier.writerow(list_to_save)
 
-    @staticmethod
-    def read_users(file_name="csv/users.csv"):
+    @abstractclassmethod
+    def read_users(cls, file_name="csv/users.csv"):
         """
         Read User objects from csv of given name and add them to list of users
 
@@ -72,17 +72,4 @@ class User(metaclass=ABCMeta):
             file_name (string): name of csv file
         """
 
-        with open(file_name, "r", newline="") as csvfile:
-            file_reader = csv.reader(csvfile, delimiter="|")
-
-            for row in file_reader:
-                name = row[1]
-                surname = row[2]
-                user_id = row[3]
-                password = row[4]
-
-                if row[0] == "Student":
-                    Student(name, surname, user_id, password)
-
-                if row[0] == "Mentor":
-                    Mentor(name, surname, user_id, password)
+        pass
