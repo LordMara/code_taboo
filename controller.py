@@ -68,10 +68,10 @@ def book_private_mentoring():
     date = view.get_event_date()
 
     date = validate_date_format(date)
+    preffered_mentor = choice_preffered_mentor()
 
-    if date is not None:
+    if date is not None and preffered_mentor is not None:
         goal = view.get_goal()
-        preffered_mentor = view.preferred_mentor()
 
         events.PrivateMentoring(date, goal, preffered_mentor)
 
@@ -182,3 +182,43 @@ def validate_date_future(date):
         view.print_msg("Date have to be in future!")
     else:
         return date
+
+
+def choice_preffered_mentor():
+    """
+    Call functions to diplay manu and choose preferred mentor
+    """
+
+    AVAIALBLE_OPTIONS_LIST = ["0", "1", "2", "3", "4", "5"]
+
+    choice = None
+    preffered_mentor = None
+
+    head = "Chose option:"
+    options_list = ["Mateusz Ostafi",
+                    "Agnieszka Koszany",
+                    "Dominik Starzyk",
+                    "Mateusz Steliga",
+                    "Marcin Izworski"
+                    ]
+    exit_msg = "Exit booking provate mentoring"
+
+    while choice not in AVAIALBLE_OPTIONS_LIST:
+        view.print_menu(head, options_list, exit_msg)
+        choice = view.get_choice()
+        if choice == "1":
+            preffered_mentor = "Mateusz Ostafi"
+        elif choice == "2":
+            preffered_mentor = "Agnieszka Koszany"
+        elif choice == "3":
+            preffered_mentor = "Dominik Starzyk"
+        elif choice == "4":
+            preffered_mentor = "Mateusz Steliga"
+        elif choice == "5":
+            preffered_mentor = "Marcin Izworski"
+        elif choice == "0":
+            view.print_msg("End of booking")
+        else:
+            view.print_msg("Wrong option!")
+
+    return preffered_mentor
