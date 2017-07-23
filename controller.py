@@ -174,6 +174,11 @@ def validate_date_format(date_str):
 
     Returns:
         :obj: `date`: date of event choose by user
+
+    Raises:
+        ValueError: if string given to convert have letters or
+        scope of numbers are to low or high
+        IndexError: if given string have to little delimiters as sing "-"
     """
 
     try:
