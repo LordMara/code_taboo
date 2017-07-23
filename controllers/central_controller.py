@@ -15,7 +15,13 @@ def start_controller():
     """
 
     try:
-        User.read_users()
+        Student.read_users()
+    except FileNotFoundError as err:
+        view.print_msg(err)
+        pass
+
+    try:
+        Mentor.read_users()
     except FileNotFoundError as err:
         view.print_msg(err)
     else:
@@ -24,7 +30,7 @@ def start_controller():
         user_password = view.get_user_password()
 
         try:
-            user = login_user()
+            user = login_user(user_id, user_password)
         except ValueError as err:
             view.print_msg(err)
         else:
@@ -35,9 +41,9 @@ def start_controller():
                 pass
 
 
-def login_user():
+def login_user(user_id, user_password):
     for user in User.users_list:
-        if user_id == user.user_id and user_password == user.passowrd:
+        if user_id == user.user_id and user_password == user.password:
             return user
         else:
             raise ValueError("Wrong user id or password!")
