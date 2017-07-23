@@ -1,4 +1,6 @@
-from abc import ABCMeta
+import csv
+
+from abc import ABCMeta, abstractclassmethod
 
 
 class Event(metaclass=ABCMeta):
@@ -87,6 +89,17 @@ class Event(metaclass=ABCMeta):
             if event.date == date and event.__class__.__name__ == cls.__name__:
                 event.date = new_date
 
+    @abstractclassmethod
+    def save_events(cls, file_name):
+        """
+        Save Events objects from events list to file of given name
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        pass
+
 
 class Checkpoint(Event):
     """
@@ -114,6 +127,27 @@ class Checkpoint(Event):
         """
 
         return '{} Checkpoint'.format(self.date)
+
+    @classmethod
+    def save_events(cls, file_name="checkpoint.csv"):
+        """
+        Save Checkpoint objects from events list to file of given name
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        list_to_save = []
+
+        with open(file_name, "w", newline="") as csvfile:
+            file_writier = csv.writer(csvfile, delimiter="|")
+
+            for event in cls.events:
+                if event.__class__.__name__ == cls.__name__:
+                    list_to_save.append(event.__class__.__name__)
+                    list_to_save.append(str(event.date))
+
+                    file_writier.writerow(list_to_save)
 
 
 class PrivateMentoring(Event):
@@ -172,3 +206,26 @@ class PrivateMentoring(Event):
                                                               self.preffered_mentor,
                                                               self.goal
                                                               )
+
+    @classmethod
+    def save_events(cls, file_name="private_mentoring.csv"):
+        """
+        Save PrivateMentoring objects from events list to file of given name
+
+        Args:
+            file_name (string): name of csv file
+        """
+
+        list_to_save = []
+
+        with open(file_name, "w", newline="") as csvfile:
+            file_writier = csv.writer(csvfile, delimiter="|")
+
+            for event in cls.events:
+                if event.__class__.__name__ == cls.__name__:
+                    list_to_save.append(event.__class__.__name__)
+                    list_to_save.append(str(event.date))
+                    list_to_save.append(event.preffered_mentor)
+                    list_to_save.append(event.goal)
+
+                    file_writier.writerow(list_to_save)
