@@ -31,7 +31,7 @@ class Event(metaclass=ABCMeta):
     @classmethod
     def sort_events(cls):
         """
-        Insertion sort alghoritm of sorting all events by date on events list
+        Bubble sort alghoritm of sorting all events by date on events list
         """
 
         is_sorted = False
