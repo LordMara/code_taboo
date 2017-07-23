@@ -3,7 +3,7 @@ import view
 import events
 
 
-def start():
+def start_controller():
     """
     Contain main logic of controller,
     call functions to perform task choosen by user
