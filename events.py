@@ -68,14 +68,22 @@ class Event(metaclass=ABCMeta):
         return cls.events
 
     @classmethod
-    """
-    Remove Event object form events list
-    """
-
     def del_event(cls, date):
+        """
+        Remove Event object form events list
+        """
         for event in cls.events:
             if event.date == date:
                 Event.events.remove(event)
+
+    @classmethod
+    def change_date(cls, date, new_date):
+        """
+        Change event date
+        """
+        for event in cls.events:
+            if event.date == date:
+                event.date = new_date
 
 
 class Checkpoint(Event):
